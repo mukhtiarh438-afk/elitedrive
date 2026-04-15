@@ -13,6 +13,7 @@ class BookingOptionCard extends StatelessWidget {
   final Color iconColor;
   final Color titleColor;
   final double extraBottom;
+  final VoidCallback? onTap;
 
   const BookingOptionCard({
     super.key,
@@ -23,6 +24,7 @@ class BookingOptionCard extends StatelessWidget {
     required this.iconColor,
     required this.titleColor,
     this.extraBottom = 0,
+    this.onTap,
   });
 
   @override
@@ -32,7 +34,7 @@ class BookingOptionCard extends StatelessWidget {
     final iconRadius  = AppSpacing.isTablet(context) ? 14.0 : 10.0;
 
     return GestureDetector(
-      onTap: () {},
+      onTap: onTap,
       child: Container(
         padding: AppPaddings.allM(context),
         decoration: BoxDecoration(

@@ -11,6 +11,7 @@ import 'widgets/booking_option_card.dart';
 import 'widgets/driver_avatar.dart';
 import 'widgets/fleet_card.dart';
 import 'widgets/suggested_place_tile.dart';
+import '../bidScreen/bid_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -30,7 +31,6 @@ class HomeScreen extends StatelessWidget {
       backgroundColor: AppColors.homeBackground,
       appBar: _buildAppBar(context),
       body: _buildPortraitBody(context, vm),
-      bottomNavigationBar: _buildBottomNavBar(context, vm),
     );
   }
 
@@ -192,6 +192,11 @@ class HomeScreen extends StatelessWidget {
             backgroundColor: AppColors.advanceBookingBg,
             iconColor: AppColors.homePrimary,
             titleColor: AppColors.advanceBookingTitle,
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (_) => const BidScreen()),
+            ),
           ),
         ),
         AppSpacing.hM(context),
@@ -336,57 +341,4 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  // ── BOTTOM NAV BAR ───────────────────────────────────
-  Widget _buildBottomNavBar(BuildContext context, HomeViewModel vm) {
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.whiteColor,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.07),
-            blurRadius: 12,
-            offset: const Offset(0, -2),
-          ),
-        ],
-      ),
-      child: BottomNavigationBar(
-        currentIndex: vm.selectedNavIndex,
-        onTap: vm.onNavTap,
-        backgroundColor: AppColors.whiteColor,
-        selectedItemColor: AppColors.homePrimary,
-        unselectedItemColor: AppColors.homeHintText,
-        selectedLabelStyle: TextStyle(
-          fontSize: AppTextSize.labelSmall(context),
-          fontWeight: FontWeight.w600,
-        ),
-        unselectedLabelStyle: TextStyle(
-          fontSize: AppTextSize.labelSmall(context),
-        ),
-        type: BottomNavigationBarType.fixed,
-        elevation: 0,
-        items: const [
-          BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              activeIcon: Icon(Icons.home),
-              label: AppStrings.navHome),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.directions_car),
-              activeIcon: Icon(Icons.directions_car),
-              label: AppStrings.navRides),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.account_balance_wallet),
-              activeIcon: Icon(Icons.account_balance_wallet),
-              label: AppStrings.navEarnings),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.help),
-              activeIcon: Icon(Icons.help),
-              label: AppStrings.navSupport),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              activeIcon: Icon(Icons.person),
-              label: AppStrings.navProfile),
-        ],
-      ),
-    );
-  }
 }

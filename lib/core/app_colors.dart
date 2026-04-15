@@ -62,7 +62,87 @@ class AppColors {
   static const multiStopTitle      = Color(0xFF2D6A4F); // dark green title on card
   static const multiStopIcon       = Color(0xFF2D6A4F); // dark green icon
 
-  // Suggested Places Icons
+  // ── Support Screen ───────────────────────────────────
+  static const supportSearchBg    = Color(0xFFEEF3F0);
+  static const quickHelpCardBg    = Color(0xFFFFFFFF);
+  static const liveChatCardBg     = Color(0xFFD4EDDA);
+  static const liveChatBtnBg      = Color(0xFF2D4A5E);
+  static const complaintCardBg    = Color(0xFFFFFFFF);
+  static const inputFieldBg       = Color(0xFFF5F6F8);
+  static const submitBtnBg        = Color(0xFF2D4A5E);
+  static const articleIconBg1     = Color(0xFFD6E8F7);
+  static const articleIconBg2     = Color(0xFFD6E8F7);
+  static const articleIconBg3     = Color(0xFFD4EDDA);
+
+  // ── Fleet Performance Screen ─────────────────────────
+  static const fleetChartBarActive   = Color(0xFF2D4A5E);
+  static const fleetChartBarInactive = Color(0xFFD6E8F7);
+  static const fleetStatCardBg       = Color(0xFFF5F6F8);
+  static const vehicleInService      = Color(0xFF4CAF50);
+  static const vehicleMaintenance    = Color(0xFFE53935);
+  static const assignBtnBg           = Color(0xFFD4EDDA);
+  static const assignBtnText         = Color(0xFF2D6A4F);
+  static const driverCardBg          = Color(0xFFFFFFFF);
+  static const ownerTabActive        = Color(0xFFFFFFFF);
+
+  // ── Driver Bids Screen ──────────────────────────────
+  static const mapCardBg          = Color(0xFFE8EEEB);
+  static const bidsTabActiveBg    = Color(0xFFFFFFFF);
+  static const newBidsBadgeBg     = Color(0xFFD4EDDA);
+  static const newBidsBadgeText   = Color(0xFF2D6A4F);
+  static const favoriteBadgeBg    = Color(0xFFD4EDDA);
+  static const favoriteBadgeText  = Color(0xFF2D6A4F);
+  static const acceptBtnActive    = Color(0xFF2D4A5E);
+  static const acceptBtnInactive  = Color(0xFFF0F4F8);
+  static const fixedRateCardBg    = Color(0xFFFFFFFF);
+  static const fixedRateLockBg    = Color(0xFFF0F4F8);
+
+  // ── Active Ride Screen ───────────────────────────────
+  static const activeRideBg        = Color(0xFFDDE8E2); // map-like muted bg
+  static const arrivingMinColor    = Color(0xFF1A2B3C);
+  static const trafficBadgeBg      = Color(0xFFFFFFFF);
+  static const trafficDot          = Color(0xFF4CAF50);
+  static const routeIconNav        = Color(0xFF2D4A5E);
+  static const routeIconStop       = Color(0xFFADB5BD);
+  static const routeIconDest       = Color(0xFF2D4A5E);
+  static const routeLine           = Color(0xFFD0D8E4);
+  static const sosCardBg           = Color(0xFFFCEDED);
+  static const sosIconColor        = Color(0xFFE53935);
+  static const shareCardBg         = Color(0xFFFFFFFF);
+  static const verifyCardBg        = Color(0xFFFFFFFF);
+  static const verifyIconBg        = Color(0xFFD4EDDA);
+  static const verifyIconColor     = Color(0xFF2D6A4F);
+  static const proBadgeBg          = Color(0xFF2D4A5E);
+
+  // ── Earnings Screen ─────────────────────────────────
+  static const earningsBalanceBg   = Color(0xFFFFFFFF);
+  static const loyaltyCardBg       = Color(0xFFFFFFFF);
+  static const goldCardBg          = Color(0xFF2D4A5E);
+  static const goldProgressColor   = Color(0xFFFFC107);
+  static const paymentCardBg       = Color(0xFFFFFFFF);
+  static const couponGreenBg       = Color(0xFFD4EDDA);
+  static const couponGreenText     = Color(0xFF2D6A4F);
+  static const couponCodeBg        = Color(0xFFFFFFFF);
+  static const txPositive          = Color(0xFF2D6A4F);
+  static const txNegative          = Color(0xFF1A2B3C);
+  static const toggleActiveBg      = Color(0xFFFFFFFF);
+
+  // ── Rides Screen ────────────────────────────────────
+  static const ridesPrimary      = Color(0xFF2D4A5E);
+  static const ridesCardDark     = Color(0xFF2D4A5E);
+  static const ridesEarningsBg   = Color(0xFF2D4A5E);
+  static const ridesStatsBg      = Color(0xFFFFFFFF);
+  static const ridesOnlineBg     = Color(0xFFFFFFFF);
+  static const ridesOnlineDot    = Color(0xFF4CAF50);
+  static const ridesSelectedDay  = Color(0xFFEEF3F0);
+  static const ridesHighDemand   = Color(0xFFFF6B6B);
+  static const ridesAcceptBtn    = Color(0xFF2D4A5E);
+  static const ridesDeclineBtn   = Color(0xFFEEF3F0);
+  static const ridesPickupIcon   = Color(0xFF4CAF50);
+  static const ridesDropIcon     = Color(0xFFE53935);
+  static const ridesPositive     = Color(0xFF4CAF50);
+  static const ridesRequestBg    = Color(0xFFFFFFFF);
+  static const ridesMiniCard     = Color(0xFFFFFFFF);
   static const hubIconBg    = Color(0xFFD4E8C4); // yellow-green circle bg
   static const hubIconColor = Color(0xFF4A5E2A); // dark olive icon
   static const homeIconBg   = Color(0xFFC8E6C9); // light green circle bg

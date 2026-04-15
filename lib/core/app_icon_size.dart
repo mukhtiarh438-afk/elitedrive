@@ -26,7 +26,7 @@ class AppIconSize {
   static double appBar(BuildContext context)    => md(context);       // 24 — notifications, search
   static double avatar(BuildContext context)    => sm(context);       // 20 — person in appbar
   static double card(BuildContext context)      => lg(context);       // 28 — fleet card icon
-  static double cardSmall(BuildContext context) => _size(context, 22);// 22 — booking card icon
+  static double cardSmall(BuildContext context) => md(context);       // 24-booking card icon
   static double listTile(BuildContext context)  => sm(context);       // 20 — suggested place, chevron
-  static double star(BuildContext context)      => _size(context, 13);// 13 — rating star
+  static double star(BuildContext context)      => xs(context);       // 16 — rating star
 }
