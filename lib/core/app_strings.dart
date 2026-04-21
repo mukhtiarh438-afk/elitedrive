@@ -1,5 +1,20 @@
 // App Strings
 class AppStrings {
+  // ── Auth Screen ─────────────────────────────────────
+  static const loginTitle       = 'Welcome Back';
+  static const loginSubtitle    = 'Sign in to continue your journey';
+  static const signupTitle      = 'Create Account';
+  static const signupSubtitle   = 'Join Elite Drive today';
+  static const emailLabel       = 'Email Address';
+  static const passwordLabel    = 'Password';
+  static const nameLabel        = 'Full Name';
+  static const loginBtn         = 'Login';
+  static const signupBtn        = 'Sign Up';
+  static const dontHaveAccount  = "Don't have an account? ";
+  static const alreadyHaveAccount = 'Already have an account? ';
+  static const forgotPassword   = 'Forgot Password?';
+  static const orContinueWith   = 'Or continue with';
+
   // ── Support Screen ───────────────────────────────────
   static const supportTagline     = 'HOW CAN WE HELP?';
   static const support            = 'Support';

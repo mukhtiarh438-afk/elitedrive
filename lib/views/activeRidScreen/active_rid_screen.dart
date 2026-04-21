@@ -7,7 +7,7 @@ import '../../core/app_strings.dart';
 import '../../core/app_text_size.dart';
 
 class ActiveRideScreen extends StatelessWidget {
-  const ActiveRideScreen.ActiveRidScreen({super.key});
+  const ActiveRideScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -49,28 +49,36 @@ class ActiveRideScreen extends StatelessWidget {
       leadingWidth: AppSpacing.isTablet(context) ? 68 : 56,
       leading: Padding(
         padding: EdgeInsets.only(
-            left: AppPaddings.val(context, mobile: 16, tablet: 20)),
+          left: AppPaddings.val(context, mobile: 16, tablet: 20),
+        ),
         child: CircleAvatar(
           backgroundColor: AppColors.homePrimary,
-          child: Icon(Icons.person,
-              color: AppColors.whiteColor,
-              size: AppIconSize.avatar(context)),
+          child: Icon(
+            Icons.person,
+            color: AppColors.whiteColor,
+            size: AppIconSize.avatar(context),
+          ),
         ),
       ),
-      title: Text(AppStrings.appTitle,
-          style: TextStyle(
-            color: AppColors.homeTitleText,
-            fontSize: AppTextSize.titleLarge(context),
-            fontWeight: FontWeight.w600,
-          )),
+      title: Text(
+        AppStrings.appTitle,
+        style: TextStyle(
+          color: AppColors.homeTitleText,
+          fontSize: AppTextSize.titleLarge(context),
+          fontWeight: FontWeight.w600,
+        ),
+      ),
       actions: [
         Padding(
           padding: EdgeInsets.only(
-              right: AppPaddings.val(context, mobile: 16, tablet: 20)),
+            right: AppPaddings.val(context, mobile: 16, tablet: 20),
+          ),
           child: IconButton(
-            icon: Icon(Icons.notifications,
-                color: AppColors.homeTitleText,
-                size: AppIconSize.appBar(context)),
+            icon: Icon(
+              Icons.notifications,
+              color: AppColors.homeTitleText,
+              size: AppIconSize.appBar(context),
+            ),
             onPressed: () {},
           ),
         ),
@@ -83,40 +91,45 @@ class ActiveRideScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(AppStrings.arrivingIn,
-            style: TextStyle(
-              color: AppColors.homeSubtitleText,
-              fontSize: AppTextSize.labelMedium(context),
-              letterSpacing: 1.2,
-              fontWeight: FontWeight.w600,
-            )),
+        Text(
+          AppStrings.arrivingIn,
+          style: TextStyle(
+            color: AppColors.homeSubtitleText,
+            fontSize: AppTextSize.labelMedium(context),
+            letterSpacing: 1.2,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
         AppSpacing.vXS(context),
         Row(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            Text(AppStrings.arrivingMins,
-                style: TextStyle(
-                  color: AppColors.arrivingMinColor,
-                  fontSize: AppTextSize.displayLarge(context) * 1.8,
-                  fontWeight: FontWeight.bold,
-                  height: 1,
-                )),
+            Text(
+              AppStrings.arrivingMins,
+              style: TextStyle(
+                color: AppColors.arrivingMinColor,
+                fontSize: AppTextSize.displayLarge(context) * 1.8,
+                fontWeight: FontWeight.bold,
+                height: 1,
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.only(bottom: 8, left: 6),
-              child: Text(AppStrings.arrivingUnit,
-                  style: TextStyle(
-                    color: AppColors.homeTitleText,
-                    fontSize: AppTextSize.headlineLarge(context),
-                    fontWeight: FontWeight.w500,
-                  )),
+              child: Text(
+                AppStrings.arrivingUnit,
+                style: TextStyle(
+                  color: AppColors.homeTitleText,
+                  fontSize: AppTextSize.headlineLarge(context),
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
             ),
           ],
         ),
         AppSpacing.vS(context),
         // Traffic badge
         Container(
-          padding: AppPaddings.symmetric(
-              context, mH: 12, tH: 16, mV: 6, tV: 8),
+          padding: AppPaddings.symmetric(context, mH: 12, tH: 16, mV: 6, tV: 8),
           decoration: BoxDecoration(
             color: AppColors.trafficBadgeBg,
             borderRadius: BorderRadius.circular(50),
@@ -132,14 +145,18 @@ class ActiveRideScreen extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               const CircleAvatar(
-                  radius: 5, backgroundColor: AppColors.trafficDot),
+                radius: 5,
+                backgroundColor: AppColors.trafficDot,
+              ),
               const SizedBox(width: 6),
-              Text(AppStrings.normalTraffic,
-                  style: TextStyle(
-                    color: AppColors.homeTitleText,
-                    fontSize: AppTextSize.labelMedium(context),
-                    fontWeight: FontWeight.w500,
-                  )),
+              Text(
+                AppStrings.normalTraffic,
+                style: TextStyle(
+                  color: AppColors.homeTitleText,
+                  fontSize: AppTextSize.labelMedium(context),
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
             ],
           ),
         ),
@@ -164,66 +181,76 @@ class ActiveRideScreen extends StatelessWidget {
       ),
       child: Column(
         children: [
-          _routeRow(context,
-              icon: Icons.navigation,
-              iconColor: AppColors.routeIconNav,
-              iconBg: AppColors.homePrimary,
-              label: AppStrings.currentLocation,
-              address: AppStrings.currentAddr),
+          _routeRow(
+            context,
+            icon: Icons.navigation,
+            iconColor: AppColors.routeIconNav,
+            iconBg: AppColors.homePrimary,
+            label: AppStrings.currentLocation,
+            address: AppStrings.currentAddr,
+          ),
           _routeDivider(),
-          _routeRow(context,
-              icon: Icons.circle,
-              iconColor: AppColors.routeIconStop,
-              iconBg: AppColors.homeBackground,
-              label: AppStrings.nextStop,
-              address: AppStrings.nextStopAddr),
+          _routeRow(
+            context,
+            icon: Icons.circle,
+            iconColor: AppColors.routeIconStop,
+            iconBg: AppColors.homeBackground,
+            label: AppStrings.nextStop,
+            address: AppStrings.nextStopAddr,
+          ),
           _routeDivider(),
-          _routeRow(context,
-              icon: Icons.location_on,
-              iconColor: AppColors.whiteColor,
-              iconBg: AppColors.homePrimary,
-              label: AppStrings.finalDestination,
-              address: AppStrings.finalAddr),
+          _routeRow(
+            context,
+            icon: Icons.location_on,
+            iconColor: AppColors.whiteColor,
+            iconBg: AppColors.homePrimary,
+            label: AppStrings.finalDestination,
+            address: AppStrings.finalAddr,
+          ),
         ],
       ),
     );
   }
 
-  Widget _routeRow(BuildContext context,
-      {required IconData icon,
-      required Color iconColor,
-      required Color iconBg,
-      required String label,
-      required String address}) {
+  Widget _routeRow(
+    BuildContext context, {
+    required IconData icon,
+    required Color iconColor,
+    required Color iconBg,
+    required String label,
+    required String address,
+  }) {
     return Padding(
       padding: EdgeInsets.symmetric(
-          vertical: AppSpacing.isTablet(context) ? 10 : 8),
+        vertical: AppSpacing.isTablet(context) ? 10 : 8,
+      ),
       child: Row(
         children: [
           Container(
             width: 36,
             height: 36,
-            decoration: BoxDecoration(
-              color: iconBg,
-              shape: BoxShape.circle,
-            ),
+            decoration: BoxDecoration(color: iconBg, shape: BoxShape.circle),
             child: Icon(icon, color: iconColor, size: AppIconSize.sm(context)),
           ),
           AppSpacing.hM(context),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(label,
-                  style: TextStyle(
-                    color: AppColors.homeSubtitleText,
-                    fontSize: AppTextSize.labelSmall(context),
-                  )),
-              Text(address,
-                  style: TextStyle(
-                    color: AppColors.homeTitleText,
-                    fontSize: AppTextSize.bodySmall(context),
-                    fontWeight: FontWeight.w600,
-                  )),
+              Text(
+                label,
+                style: TextStyle(
+                  color: AppColors.homeSubtitleText,
+                  fontSize: AppTextSize.labelSmall(context),
+                ),
+              ),
+              Text(
+                address,
+                style: TextStyle(
+                  color: AppColors.homeTitleText,
+                  fontSize: AppTextSize.bodySmall(context),
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
             ],
           ),
         ],
@@ -237,7 +264,10 @@ class ActiveRideScreen extends StatelessWidget {
       child: SizedBox(
         height: 16,
         child: VerticalDivider(
-            width: 2, thickness: 2, color: AppColors.routeLine),
+          width: 2,
+          thickness: 2,
+          color: AppColors.routeLine,
+        ),
       ),
     );
   }
@@ -266,8 +296,9 @@ class ActiveRideScreen extends StatelessWidget {
               CircleAvatar(
                 radius: AppSpacing.isTablet(context) ? 36 : 28,
                 backgroundColor: AppColors.homeAvatarBg,
-                backgroundImage:
-                    const NetworkImage('https://i.pravatar.cc/150?img=11'),
+                backgroundImage: const NetworkImage(
+                  'https://i.pravatar.cc/150?img=11',
+                ),
               ),
               Positioned(
                 bottom: -4,
@@ -276,17 +307,21 @@ class ActiveRideScreen extends StatelessWidget {
                 child: Center(
                   child: Container(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 6, vertical: 2),
+                      horizontal: 6,
+                      vertical: 2,
+                    ),
                     decoration: BoxDecoration(
                       color: AppColors.proBadgeBg,
                       borderRadius: BorderRadius.circular(4),
                     ),
-                    child: Text(AppStrings.proBadge,
-                        style: TextStyle(
-                          color: AppColors.whiteColor,
-                          fontSize: AppTextSize.labelSmall(context) - 1,
-                          fontWeight: FontWeight.bold,
-                        )),
+                    child: Text(
+                      AppStrings.proBadge,
+                      style: TextStyle(
+                        color: AppColors.whiteColor,
+                        fontSize: AppTextSize.labelSmall(context) - 1,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -297,30 +332,38 @@ class ActiveRideScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(AppStrings.driverName,
-                    style: TextStyle(
-                      color: AppColors.homeTitleText,
-                      fontSize: AppTextSize.titleSmall(context),
-                      fontWeight: FontWeight.bold,
-                    )),
+                Text(
+                  AppStrings.driverName,
+                  style: TextStyle(
+                    color: AppColors.homeTitleText,
+                    fontSize: AppTextSize.titleSmall(context),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 AppSpacing.vXS(context),
-                Text(AppStrings.driverCar,
-                    style: TextStyle(
-                      color: AppColors.homeSubtitleText,
-                      fontSize: AppTextSize.labelMedium(context),
-                    )),
+                Text(
+                  AppStrings.driverCar,
+                  style: TextStyle(
+                    color: AppColors.homeSubtitleText,
+                    fontSize: AppTextSize.labelMedium(context),
+                  ),
+                ),
                 AppSpacing.vXS(context),
                 Row(
                   children: [
-                    Icon(Icons.star,
-                        color: AppColors.homeStarColor,
-                        size: AppIconSize.star(context)),
+                    Icon(
+                      Icons.star,
+                      color: AppColors.homeStarColor,
+                      size: AppIconSize.star(context),
+                    ),
                     const SizedBox(width: 3),
-                    Text(AppStrings.driverRating,
-                        style: TextStyle(
-                          color: AppColors.homeSubtitleText,
-                          fontSize: AppTextSize.labelMedium(context),
-                        )),
+                    Text(
+                      AppStrings.driverRating,
+                      style: TextStyle(
+                        color: AppColors.homeSubtitleText,
+                        fontSize: AppTextSize.labelMedium(context),
+                      ),
+                    ),
                   ],
                 ),
               ],
@@ -329,14 +372,18 @@ class ActiveRideScreen extends StatelessWidget {
           // Action buttons
           Row(
             children: [
-              _actionBtn(context,
-                  icon: Icons.message_outlined,
-                  bg: AppColors.homeBackground),
+              _actionBtn(
+                context,
+                icon: Icons.message_outlined,
+                bg: AppColors.homeBackground,
+              ),
               AppSpacing.hS(context),
-              _actionBtn(context,
-                  icon: Icons.phone,
-                  bg: AppColors.homePrimary,
-                  iconColor: AppColors.whiteColor),
+              _actionBtn(
+                context,
+                icon: Icons.phone,
+                bg: AppColors.homePrimary,
+                iconColor: AppColors.whiteColor,
+              ),
             ],
           ),
         ],
@@ -344,10 +391,12 @@ class ActiveRideScreen extends StatelessWidget {
     );
   }
 
-  Widget _actionBtn(BuildContext context,
-      {required IconData icon,
-      required Color bg,
-      Color iconColor = AppColors.homePrimary}) {
+  Widget _actionBtn(
+    BuildContext context, {
+    required IconData icon,
+    required Color bg,
+    Color iconColor = AppColors.homePrimary,
+  }) {
     return Container(
       width: 44,
       height: 44,
@@ -361,12 +410,14 @@ class ActiveRideScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(AppStrings.safetyToolkit,
-            style: TextStyle(
-              color: AppColors.homeTitleText,
-              fontSize: AppTextSize.headlineSmall(context),
-              fontWeight: FontWeight.bold,
-            )),
+        Text(
+          AppStrings.safetyToolkit,
+          style: TextStyle(
+            color: AppColors.homeTitleText,
+            fontSize: AppTextSize.headlineSmall(context),
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         AppSpacing.vM(context),
         Row(
           children: [
@@ -381,22 +432,27 @@ class ActiveRideScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Icon(Icons.emergency,
-                        color: AppColors.sosIconColor,
-                        size: AppIconSize.xl(context)),
+                    Icon(
+                      Icons.emergency,
+                      color: AppColors.sosIconColor,
+                      size: AppIconSize.xl(context),
+                    ),
                     AppSpacing.vM(context),
-                    Text(AppStrings.emergencySOS,
-                        style: TextStyle(
-                          color: AppColors.sosIconColor,
-                          fontSize: AppTextSize.bodySmall(context),
-                          fontWeight: FontWeight.bold,
-                        )),
-                    Text(AppStrings.emergencySub,
-                        style: TextStyle(
-                          color: AppColors.sosIconColor
-                              .withValues(alpha: 0.7),
-                          fontSize: AppTextSize.labelMedium(context),
-                        )),
+                    Text(
+                      AppStrings.emergencySOS,
+                      style: TextStyle(
+                        color: AppColors.sosIconColor,
+                        fontSize: AppTextSize.bodySmall(context),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      AppStrings.emergencySub,
+                      style: TextStyle(
+                        color: AppColors.sosIconColor.withValues(alpha: 0.7),
+                        fontSize: AppTextSize.labelMedium(context),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -420,21 +476,27 @@ class ActiveRideScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Icon(Icons.share_location,
-                        color: AppColors.homePrimary,
-                        size: AppIconSize.xl(context)),
+                    Icon(
+                      Icons.share_location,
+                      color: AppColors.homePrimary,
+                      size: AppIconSize.xl(context),
+                    ),
                     AppSpacing.vM(context),
-                    Text(AppStrings.shareTrip,
-                        style: TextStyle(
-                          color: AppColors.homeTitleText,
-                          fontSize: AppTextSize.bodySmall(context),
-                          fontWeight: FontWeight.bold,
-                        )),
-                    Text(AppStrings.shareTripSub,
-                        style: TextStyle(
-                          color: AppColors.homeSubtitleText,
-                          fontSize: AppTextSize.labelMedium(context),
-                        )),
+                    Text(
+                      AppStrings.shareTrip,
+                      style: TextStyle(
+                        color: AppColors.homeTitleText,
+                        fontSize: AppTextSize.bodySmall(context),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      AppStrings.shareTripSub,
+                      style: TextStyle(
+                        color: AppColors.homeSubtitleText,
+                        fontSize: AppTextSize.labelMedium(context),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -469,31 +531,40 @@ class ActiveRideScreen extends StatelessWidget {
               color: AppColors.verifyIconBg,
               borderRadius: BorderRadius.circular(10),
             ),
-            child: Icon(Icons.verified,
-                color: AppColors.verifyIconColor,
-                size: AppIconSize.md(context)),
+            child: Icon(
+              Icons.verified,
+              color: AppColors.verifyIconColor,
+              size: AppIconSize.md(context),
+            ),
           ),
           AppSpacing.hM(context),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(AppStrings.driverVerification,
-                    style: TextStyle(
-                      color: AppColors.homeTitleText,
-                      fontSize: AppTextSize.bodySmall(context),
-                      fontWeight: FontWeight.bold,
-                    )),
-                Text(AppStrings.driverVerifiedSub,
-                    style: TextStyle(
-                      color: AppColors.homeSubtitleText,
-                      fontSize: AppTextSize.labelMedium(context),
-                    )),
+                Text(
+                  AppStrings.driverVerification,
+                  style: TextStyle(
+                    color: AppColors.homeTitleText,
+                    fontSize: AppTextSize.bodySmall(context),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  AppStrings.driverVerifiedSub,
+                  style: TextStyle(
+                    color: AppColors.homeSubtitleText,
+                    fontSize: AppTextSize.labelMedium(context),
+                  ),
+                ),
               ],
             ),
           ),
-          const Icon(Icons.chevron_right,
-              color: AppColors.homeHintText, size: 20),
+          const Icon(
+            Icons.chevron_right,
+            color: AppColors.homeHintText,
+            size: 20,
+          ),
         ],
       ),
     );

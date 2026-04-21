@@ -65,8 +65,20 @@ class HomeViewModel extends ChangeNotifier {
   ];
 
   final List<DriverModel> drivers = [
-    DriverModel(name: AppStrings.driverMarcus, rating: '4.9', imageUrl: 'https://i.pravatar.cc/150?img=11'),
-    DriverModel(name: AppStrings.driverElena,  rating: '5.0', imageUrl: 'https://i.pravatar.cc/150?img=5'),
-    DriverModel(name: AppStrings.driverDavid,  rating: '4.8', imageUrl: 'https://i.pravatar.cc/150?img=3'),
+    DriverModel(
+      name: AppStrings.driverMarcus,
+      rating: '4.9',
+      imageUrl: 'https://i.pravatar.cc/150?img=11',
+    ),
+    DriverModel(
+      name: AppStrings.driverElena,
+      rating: '5.0',
+      imageUrl: 'https://i.pravatar.cc/150?img=5',
+    ),
+    DriverModel(
+      name: AppStrings.driverDavid,
+      rating: '4.8',
+      imageUrl: 'https://i.pravatar.cc/150?img=3',
+    ),
   ];
 }

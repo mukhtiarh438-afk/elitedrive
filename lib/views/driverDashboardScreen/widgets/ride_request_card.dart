@@ -15,9 +15,7 @@ class RideRequestCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return request.isMini
-        ? _buildMiniCard(context)
-        : _buildFullCard(context);
+    return request.isMini ? _buildMiniCard(context) : _buildFullCard(context);
   }
 
   Widget _buildFullCard(BuildContext context) {
@@ -55,24 +53,30 @@ class RideRequestCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(request.passengerName,
-                        style: TextStyle(
-                          color: AppColors.homeTitleText,
-                          fontSize: AppTextSize.bodySmall(context),
-                          fontWeight: FontWeight.w600,
-                        )),
+                    Text(
+                      request.passengerName,
+                      style: TextStyle(
+                        color: AppColors.homeTitleText,
+                        fontSize: AppTextSize.bodySmall(context),
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                     AppSpacing.vXS(context),
                     Row(
                       children: [
-                        Icon(Icons.star,
-                            color: AppColors.homeStarColor,
-                            size: AppIconSize.star(context)),
+                        Icon(
+                          Icons.star,
+                          color: AppColors.homeStarColor,
+                          size: AppIconSize.star(context),
+                        ),
                         const SizedBox(width: 3),
-                        Text('${request.rating} • ${request.milesAway}',
-                            style: TextStyle(
-                              color: AppColors.homeSubtitleText,
-                              fontSize: AppTextSize.labelMedium(context),
-                            )),
+                        Text(
+                          '${request.rating} • ${request.milesAway}',
+                          style: TextStyle(
+                            color: AppColors.homeSubtitleText,
+                            fontSize: AppTextSize.labelMedium(context),
+                          ),
+                        ),
                       ],
                     ),
                   ],
@@ -81,18 +85,22 @@ class RideRequestCard extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text(request.price,
-                      style: TextStyle(
-                        color: AppColors.homeTitleText,
-                        fontSize: AppTextSize.titleMedium(context),
-                        fontWeight: FontWeight.bold,
-                      )),
+                  Text(
+                    request.price,
+                    style: TextStyle(
+                      color: AppColors.homeTitleText,
+                      fontSize: AppTextSize.titleMedium(context),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   AppSpacing.vXS(context),
-                  Text(request.estTime,
-                      style: TextStyle(
-                        color: AppColors.homeSubtitleText,
-                        fontSize: AppTextSize.labelSmall(context),
-                      )),
+                  Text(
+                    request.estTime,
+                    style: TextStyle(
+                      color: AppColors.homeSubtitleText,
+                      fontSize: AppTextSize.labelSmall(context),
+                    ),
+                  ),
                 ],
               ),
             ],
@@ -101,18 +109,22 @@ class RideRequestCard extends StatelessWidget {
           const Divider(height: 1, color: Color(0xFFF0F4F8)),
           AppSpacing.vM(context),
           // Pickup
-          _addressRow(context,
-              icon: Icons.circle_outlined,
-              iconColor: AppColors.ridesPickupIcon,
-              label: AppStrings.pickUp,
-              address: request.pickupAddress),
+          _addressRow(
+            context,
+            icon: Icons.circle_outlined,
+            iconColor: AppColors.ridesPickupIcon,
+            label: AppStrings.pickUp,
+            address: request.pickupAddress,
+          ),
           AppSpacing.vS(context),
           // Dropoff
-          _addressRow(context,
-              icon: Icons.location_on,
-              iconColor: AppColors.ridesDropIcon,
-              label: AppStrings.dropOff,
-              address: request.dropoffAddress),
+          _addressRow(
+            context,
+            icon: Icons.location_on,
+            iconColor: AppColors.ridesDropIcon,
+            label: AppStrings.dropOff,
+            address: request.dropoffAddress,
+          ),
           AppSpacing.vM(context),
           // Buttons
           Row(
@@ -126,13 +138,15 @@ class RideRequestCard extends StatelessWidget {
                       color: AppColors.ridesDeclineBtn,
                       borderRadius: BorderRadius.circular(50),
                     ),
-                    child: Text(AppStrings.decline,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: AppColors.homeTitleText,
-                          fontSize: AppTextSize.bodySmall(context),
-                          fontWeight: FontWeight.w600,
-                        )),
+                    child: Text(
+                      AppStrings.decline,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: AppColors.homeTitleText,
+                        fontSize: AppTextSize.bodySmall(context),
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -142,8 +156,7 @@ class RideRequestCard extends StatelessWidget {
                 child: GestureDetector(
                   onTap: () => Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (_) => const ActiveRideScreen.ActiveRidScreen()),
+                    MaterialPageRoute(builder: (_) => const ActiveRideScreen()),
                   ),
                   child: Container(
                     padding: AppPaddings.vM(context),
@@ -151,13 +164,15 @@ class RideRequestCard extends StatelessWidget {
                       color: AppColors.ridesAcceptBtn,
                       borderRadius: BorderRadius.circular(50),
                     ),
-                    child: Text(AppStrings.acceptRequest,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: AppColors.whiteColor,
-                          fontSize: AppTextSize.bodySmall(context),
-                          fontWeight: FontWeight.w600,
-                        )),
+                    child: Text(
+                      AppStrings.acceptRequest,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: AppColors.whiteColor,
+                        fontSize: AppTextSize.bodySmall(context),
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -168,11 +183,13 @@ class RideRequestCard extends StatelessWidget {
     );
   }
 
-  Widget _addressRow(BuildContext context,
-      {required IconData icon,
-      required Color iconColor,
-      required String label,
-      required String address}) {
+  Widget _addressRow(
+    BuildContext context, {
+    required IconData icon,
+    required Color iconColor,
+    required String label,
+    required String address,
+  }) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -181,19 +198,23 @@ class RideRequestCard extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(label,
-                style: TextStyle(
-                  color: AppColors.homeHintText,
-                  fontSize: AppTextSize.labelSmall(context),
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: 0.5,
-                )),
-            Text(address,
-                style: TextStyle(
-                  color: AppColors.homeTitleText,
-                  fontSize: AppTextSize.bodySmall(context),
-                  fontWeight: FontWeight.w500,
-                )),
+            Text(
+              label,
+              style: TextStyle(
+                color: AppColors.homeHintText,
+                fontSize: AppTextSize.labelSmall(context),
+                fontWeight: FontWeight.w600,
+                letterSpacing: 0.5,
+              ),
+            ),
+            Text(
+              address,
+              style: TextStyle(
+                color: AppColors.homeTitleText,
+                fontSize: AppTextSize.bodySmall(context),
+                fontWeight: FontWeight.w500,
+              ),
+            ),
           ],
         ),
       ],
@@ -219,38 +240,49 @@ class RideRequestCard extends StatelessWidget {
           CircleAvatar(
             radius: AppIconSize.md(context),
             backgroundColor: AppColors.homeBackground,
-            child: Icon(Icons.person,
-                color: AppColors.homeSubtitleText,
-                size: AppIconSize.md(context)),
+            child: Icon(
+              Icons.person,
+              color: AppColors.homeSubtitleText,
+              size: AppIconSize.md(context),
+            ),
           ),
           AppSpacing.hM(context),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(request.passengerName,
-                    style: TextStyle(
-                      color: AppColors.homeTitleText,
-                      fontSize: AppTextSize.bodySmall(context),
-                      fontWeight: FontWeight.w600,
-                    )),
-                Text(request.milesAway,
-                    style: TextStyle(
-                      color: AppColors.homeSubtitleText,
-                      fontSize: AppTextSize.labelMedium(context),
-                    )),
+                Text(
+                  request.passengerName,
+                  style: TextStyle(
+                    color: AppColors.homeTitleText,
+                    fontSize: AppTextSize.bodySmall(context),
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                Text(
+                  request.milesAway,
+                  style: TextStyle(
+                    color: AppColors.homeSubtitleText,
+                    fontSize: AppTextSize.labelMedium(context),
+                  ),
+                ),
               ],
             ),
           ),
-          Text(request.price,
-              style: TextStyle(
-                color: AppColors.homeTitleText,
-                fontSize: AppTextSize.titleSmall(context),
-                fontWeight: FontWeight.bold,
-              )),
+          Text(
+            request.price,
+            style: TextStyle(
+              color: AppColors.homeTitleText,
+              fontSize: AppTextSize.titleSmall(context),
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           AppSpacing.hS(context),
-          const Icon(Icons.chevron_right,
-              color: AppColors.homeHintText, size: 20),
+          const Icon(
+            Icons.chevron_right,
+            color: AppColors.homeHintText,
+            size: 20,
+          ),
         ],
       ),
     );
