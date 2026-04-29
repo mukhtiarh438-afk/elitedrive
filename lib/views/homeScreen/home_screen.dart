@@ -9,6 +9,8 @@ import '../../core/app_strings.dart';
 import '../../core/app_text_size.dart';
 import '../../core/app_icon_size.dart';
 import '../../view_models/home_view_model.dart';
+import 'widgets/home_bottom_sheet.dart';
+import '../routePreviewScreen/route_preview_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -19,6 +21,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedRideIndex = 0;
+  final MapController _mapController = MapController();
 
   // ── Helpers ──────────────────────────────────────────
   static bool _isLandscape(BuildContext context) =>
@@ -33,33 +36,74 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       backgroundColor: AppColors.homeBackground,
+      extendBodyBehindAppBar: true, // Allow map to go under app bar
       appBar: _buildAppBar(context),
-      body: _buildPortraitBody(context, vm),
-    );
-  }
-
-  // ── PORTRAIT BODY ────────────────────────────────────
-  Widget _buildPortraitBody(BuildContext context, HomeViewModel vm) {
-    final landscape = _isLandscape(context);
-    return SingleChildScrollView(
-      physics: const BouncingScrollPhysics(),
-      child: Padding(
-        padding: landscape
-            ? AppPaddings.hXL(context) // landscape — wider horizontal padding
-            : AppPaddings.hL(context), // portrait — normal
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildSearchBar(context),
-            AppSpacing.vL(context),
-            _buildMapCard(context),
-            AppSpacing.vXL(context),
-            _buildRideTypeSelector(context),
-            AppSpacing.vL(context),
-            _buildRecentPlaces(context),
-          ],
-        ),
-      ),
+      body: vm.isSelectingOnMap
+          ? Stack(
+              children: [
+                Positioned.fill(child: _buildMap(context)),
+                _buildMapSelectionOverlay(context, vm),
+              ],
+            )
+          : Stack(
+              children: [
+                // Full screen Map
+                Positioned.fill(
+                  child: Listener(
+                    onPointerDown: (_) => vm.setBottomSheetVisible(false),
+                    onPointerUp: (_) => vm.setBottomSheetVisible(true),
+                    onPointerCancel: (_) => vm.setBottomSheetVisible(true),
+                    child: _buildMap(context),
+                  ),
+                ),
+                // FAB (Near Me)
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: AnimatedPadding(
+                    duration: const Duration(milliseconds: 300),
+                    padding: EdgeInsets.only(
+                      right: 16.0,
+                      bottom: vm.isBottomSheetVisible ? 340.0 : 16.0,
+                    ),
+                    child: FloatingActionButton(
+                      mini: true,
+                      backgroundColor: AppColors.whiteColor,
+                      elevation: 4,
+                      onPressed: () {
+                        // Center map on user's location
+                        _mapController.move(vm.currentLocation, 15.0);
+                      },
+                      child: Icon(
+                        Icons.near_me_outlined,
+                        color: AppColors.homeTitleText,
+                      ),
+                    ),
+                  ),
+                ),
+                // Draggable Bottom Sheet with Animation
+                Positioned.fill(
+                  child: AnimatedSlide(
+                    offset: vm.isBottomSheetVisible
+                        ? Offset.zero
+                        : const Offset(0, 1),
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeInOut,
+                    child: DraggableScrollableSheet(
+                      initialChildSize: 0.42,
+                      minChildSize: 0.42, // Prevents going below initial height
+                      maxChildSize: 0.95, // Top limit
+                      snap: true,
+                      snapSizes: const [0.42, 0.95],
+                      builder: (context, scrollController) {
+                        return HomeBottomSheet(
+                          scrollController: scrollController,
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
     );
   }
 
@@ -70,318 +114,218 @@ class _HomeScreenState extends State<HomeScreen> {
     final landscape = _isLandscape(context);
 
     return AppBar(
-      backgroundColor: AppColors.homeBackground,
+      backgroundColor: Colors.transparent, // Transparent for map background
       elevation: 0,
       toolbarHeight: landscape ? 48 : kToolbarHeight,
       leadingWidth: _isTablet(context) ? 68 : 56,
       leading: Padding(
-        padding: EdgeInsets.only(left: leadingPad),
+        padding: EdgeInsets.only(left: leadingPad, top: 8),
         child: CircleAvatar(
-          backgroundColor: AppColors.homePrimary,
+          backgroundColor: AppColors.whiteColor,
           child: Icon(
-            Icons.person,
-            color: AppColors.whiteColor,
-            size: AppIconSize.avatar(context),
+            Icons.menu,
+            color: AppColors.homeTitleText,
+            size: AppIconSize.md(context),
           ),
-        ),
-      ),
-      title: Text(
-        AppStrings.appTitle,
-        style: TextStyle(
-          color: AppColors.homeTitleText,
-          fontSize: landscape
-              ? AppTextSize.titleSmall(context)
-              : AppTextSize.titleLarge(context),
-          fontWeight: FontWeight.w600,
         ),
       ),
       actions: [
         Padding(
-          padding: EdgeInsets.only(right: actionPad),
-          child: IconButton(
-            icon: Icon(
-              Icons.notifications,
-              color: AppColors.homeTitleText,
-              size: landscape
-                  ? AppIconSize.sm(context)
-                  : AppIconSize.appBar(context),
+          padding: EdgeInsets.only(right: actionPad, top: 8),
+          child: CircleAvatar(
+            backgroundColor: AppColors.whiteColor,
+            child: IconButton(
+              icon: Icon(
+                Icons.notifications,
+                color: AppColors.homeTitleText,
+                size: landscape
+                    ? AppIconSize.sm(context)
+                    : AppIconSize.appBar(context),
+              ),
+              onPressed: () {},
             ),
-            onPressed: () {},
           ),
         ),
       ],
     );
   }
 
-  // ── SEARCH BAR ───────────────────────────────────────
-  Widget _buildSearchBar(BuildContext context) {
-    final landscape = _isLandscape(context);
-    final barHeight = _isTablet(context) ? 62.0 : (landscape ? 46.0 : 54.0);
-    final barRadius = _isTablet(context) ? 18.0 : 14.0;
-    final vPad = landscape ? 12.0 : 16.0;
-
-    return Container(
-      height: barHeight,
-      decoration: BoxDecoration(
-        color: AppColors.whiteColor,
-        borderRadius: BorderRadius.circular(barRadius),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
+  // ── FULL SCREEN MAP ──────────────────────────────────
+  Widget _buildMap(BuildContext context) {
+    return FlutterMap(
+      mapController: _mapController,
+      options: MapOptions(
+        initialCenter: LatLng(30.1575, 71.5249), // Multan coordinates
+        initialZoom: 14.0,
       ),
-      child: TextField(
-        decoration: InputDecoration(
-          hintText: 'Where to & for how much?',
-          hintStyle: TextStyle(
-            color: AppColors.homeHintText,
-            fontSize: AppTextSize.bodySmall(context),
-          ),
-          prefixIcon: Icon(
-            Icons.search,
-            color: AppColors.homeHintText,
-            size: AppIconSize.appBar(context),
-          ),
-          border: InputBorder.none,
-          contentPadding: EdgeInsets.symmetric(vertical: vPad),
+      children: [
+        TileLayer(
+          urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+          userAgentPackageName: 'com.example.elitedrive',
         ),
-      ),
+        MarkerLayer(
+          markers: [
+            // Current location marker
+            Marker(
+              point: LatLng(30.1575, 71.5249),
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Container(
+                    width: 32,
+                    height: 32,
+                    decoration: BoxDecoration(
+                      color: Colors.blue.withValues(alpha: 0.2),
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                  Container(
+                    width: 16,
+                    height: 16,
+                    decoration: BoxDecoration(
+                      color: Colors.blue,
+                      shape: BoxShape.circle,
+                      border: Border.all(color: Colors.white, width: 3),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.2),
+                          blurRadius: 4,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            // Nearby drivers
+            Marker(
+              point: LatLng(30.1605, 71.5279),
+              child: const Icon(
+                Icons.local_taxi,
+                color: Colors.orange,
+                size: 24,
+              ),
+            ),
+            Marker(
+              point: LatLng(30.1545, 71.5219),
+              child: const Icon(
+                Icons.motorcycle,
+                color: Colors.green,
+                size: 24,
+              ),
+            ),
+            Marker(
+              point: LatLng(30.1595, 71.5229),
+              child: const Icon(
+                Icons.electric_rickshaw,
+                color: Colors.blue,
+                size: 24,
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 
-  // ── MAP CARD ─────────────────────────────────────────
-  Widget _buildMapCard(BuildContext context) {
-    final isTablet = _isTablet(context);
-    final cardRadius = isTablet ? 22.0 : 16.0;
-    final imageHeight = isTablet ? 220.0 : 174.0;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+  // ── MAP SELECTION OVERLAY ────────────────────────────
+  Widget _buildMapSelectionOverlay(BuildContext context, HomeViewModel vm) {
+    return Stack(
       children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(cardRadius),
-          child: SizedBox(
-            height: imageHeight,
-            width: double.infinity,
-            child: FlutterMap(
-              options: MapOptions(
-                initialCenter: LatLng(30.1575, 71.5249), // Multan, Pakistan coordinates
-                initialZoom: 13.0,
+        // Center Pin
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.only(
+              bottom: 40.0,
+            ), // Adjust for pin pointing down
+            child: Icon(
+              Icons.location_on,
+              size: 40,
+              color: AppColors.homePrimary,
+            ),
+          ),
+        ),
+        // Confirm Button
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: Container(
+            padding: const EdgeInsets.all(24.0),
+            decoration: const BoxDecoration(
+              color: AppColors.whiteColor,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(24),
+                topRight: Radius.circular(24),
               ),
-              children: [
-                TileLayer(
-                  urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                  userAgentPackageName: 'com.example.elitedrive',
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black12,
+                  blurRadius: 10,
+                  offset: Offset(0, -2),
                 ),
-                MarkerLayer(
-                  markers: [
-                    // Current location marker
-                    Marker(
-                      point: LatLng(30.1575, 71.5249),
-                      child: Container(
-                        padding: const EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                          color: AppColors.homePrimary,
-                          shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                              color: AppColors.homePrimary.withValues(alpha: 0.3),
-                              blurRadius: 8,
-                              spreadRadius: 2,
-                            ),
-                          ],
-                        ),
-                        child: const Icon(
-                          Icons.my_location,
-                          color: Colors.white,
-                          size: 20,
-                        ),
+              ],
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Move map to select destination',
+                  style: TextStyle(
+                    fontSize: AppTextSize.bodyMedium(context),
+                    color: AppColors.homeSubtitleText,
+                  ),
+                ),
+                AppSpacing.vL(context),
+                SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.homePrimary,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    // Nearby drivers
-                    Marker(
-                      point: LatLng(30.1605, 71.5279),
-                      child: const Icon(
-                        Icons.local_taxi,
-                        color: Colors.orange,
-                        size: 24,
+                    onPressed: () {
+                      // Confirm location, return to normal state
+                      final mode = vm.mapSelectionMode;
+                      vm.setSelectingOnMap(MapSelectionMode.none);
+
+                      // In a real app, you would reverse geocode the map center coordinate here
+                      if (mode == MapSelectionMode.pickup) {
+                        vm.setPickupAddress("Selected on Map");
+                      } else if (mode == MapSelectionMode.dropoff) {
+                        vm.setDropoffAddress("Selected on Map");
+                        
+                        // Navigate to RoutePreviewScreen
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const RoutePreviewScreen()),
+                        );
+                      }
+                    },
+                    child: const Text(
+                      'Confirm Location',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                    Marker(
-                      point: LatLng(30.1545, 71.5219),
-                      child: const Icon(
-                        Icons.motorcycle,
-                        color: Colors.green,
-                        size: 24,
-                      ),
-                    ),
-                    Marker(
-                      point: LatLng(30.1595, 71.5229),
-                      child: const Icon(
-                        Icons.electric_rickshaw,
-                        color: Colors.blue,
-                        size: 24,
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ],
             ),
           ),
         ),
-      ],
-    );
-  }
-
-  // ── SECTION HEADER ───────────────────────────────────
-  Widget _buildRideTypeSelector(BuildContext context) {
-    final rideOptions = [
-      {'icon': Icons.motorcycle, 'label': 'Moto'},
-      {'icon': Icons.directions_car, 'label': 'Ride'},
-      {'icon': Icons.electric_rickshaw, 'label': 'Rickshaw'},
-      {'icon': Icons.ac_unit, 'label': 'Ride A/C'},
-      {'icon': Icons.location_city, 'label': 'City to City'},
-    ];
-
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      physics: const BouncingScrollPhysics(),
-      child: Container(
-        margin: const EdgeInsets.all(10),
-        color: Colors.white,
-        child: Row(
-          children: rideOptions.asMap().entries.map((entry) {
-            final selected = entry.key == _selectedRideIndex;
-            final option = entry.value;
-            return Padding(
-              padding: EdgeInsets.only(
-                right: entry.key == rideOptions.length - 1 ? 0 : 12,
-              ),
-              child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _selectedRideIndex = entry.key;
-                  });
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('${option['label']} selected'),
-                      duration: const Duration(seconds: 1),
-                    ),
-                  );
-                },
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 18,
-                    vertical: 12,
-                  ),
-                  decoration: BoxDecoration(
-                    color: selected
-                        ? AppColors.homePrimary
-                        : AppColors.whiteColor,
-                    borderRadius: BorderRadius.circular(18),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.05),
-                        blurRadius: 10,
-                        offset: const Offset(0, 3),
-                      ),
-                    ],
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(
-                        option['icon'] as IconData,
-                        color: selected
-                            ? AppColors.whiteColor
-                            : AppColors.homePrimary,
-                        size: AppIconSize.md(context),
-                      ),
-                      const SizedBox(width: 10),
-                      Text(
-                        option['label'] as String,
-                        style: TextStyle(
-                          color: selected
-                              ? AppColors.whiteColor
-                              : AppColors.homeTitleText,
-                          fontSize: AppTextSize.bodyMedium(context),
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            );
-          }).toList(),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildRecentPlaces(BuildContext context) {
-    final recentPlaces = [
-      {
-        'title': 'KK Mart',
-        'subtitle': 'Bosan Road, near Te...sman Wala, Multan',
-      },
-      {'title': 'Link Abdali Rd', 'subtitle': 'Tipu Sultan Colony, Multan'},
-    ];
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        ...recentPlaces.map(
-          (place) => Padding(
-            padding: const EdgeInsets.only(bottom: 12),
-            child: Container(
-              decoration: BoxDecoration(
-                color: AppColors.whiteColor,
-                borderRadius: BorderRadius.circular(18),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.04),
-                    blurRadius: 8,
-                    offset: const Offset(0, 2),
-                  ),
-                ],
-              ),
-              child: ListTile(
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 12,
-                ),
-                leading: Container(
-                  width: 42,
-                  height: 42,
-                  decoration: BoxDecoration(
-                    color: AppColors.homePrimary.withValues(alpha: 0.12),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Icon(
-                    Icons.access_time,
-                    color: AppColors.homePrimary,
-                    size: AppIconSize.sm(context),
-                  ),
-                ),
-                title: Text(
-                  place['title'] as String,
-                  style: TextStyle(
-                    color: AppColors.homeTitleText,
-                    fontSize: AppTextSize.bodyLarge(context),
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                subtitle: Text(
-                  place['subtitle'] as String,
-                  style: TextStyle(
-                    color: AppColors.homeSubtitleText,
-                    fontSize: AppTextSize.bodySmall(context),
-                  ),
-                ),
-              ),
+        // Back Button
+        Positioned(
+          top: 50,
+          left: 16,
+          child: CircleAvatar(
+            backgroundColor: AppColors.whiteColor,
+            child: IconButton(
+              icon: const Icon(Icons.arrow_back, color: Colors.black),
+              onPressed: () => vm.setSelectingOnMap(MapSelectionMode.none),
             ),
           ),
         ),
